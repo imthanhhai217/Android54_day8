@@ -4,21 +4,18 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor;
 import com.devpro.android54_day8.MyApplication;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
-    public static final String BASE_URL = "https://dummyjson.com/";
+public class DemoRetrofitClient {
+
+    private static final String BASE_URL = "https://api.restful-api.dev/";
     private static Retrofit instances;
 
-    public static Retrofit getInstances() {
-        if (instances == null) {
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    public static Retrofit getInstances(){
+        if (instances == null){
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new ChuckerInterceptor(MyApplication.getInstances().getApplicationContext()))
-                    .addInterceptor(loggingInterceptor)
                     .build();
 
             instances = new Retrofit.Builder()
@@ -27,6 +24,7 @@ public class RetrofitClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return instances;
+        return  instances;
     }
+
 }

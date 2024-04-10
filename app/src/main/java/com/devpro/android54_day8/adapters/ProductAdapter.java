@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.devpro.android54_day8.R;
-import com.devpro.android54_day8.objects.Product;
+import com.devpro.android54_day8.objects.dummy.Product;
 
 import java.util.ArrayList;
 

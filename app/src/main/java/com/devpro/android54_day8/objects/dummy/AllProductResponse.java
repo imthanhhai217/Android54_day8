@@ -1,7 +1,8 @@
 
-package com.devpro.android54_day8.objects;
+package com.devpro.android54_day8.objects.dummy;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

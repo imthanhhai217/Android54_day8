@@ -4,26 +4,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devpro.android54_day8.adapters.ProductAdapter;
-import com.devpro.android54_day8.api.ApiUtils;
 import com.devpro.android54_day8.interfaces.IHomeView;
-import com.devpro.android54_day8.objects.AllProductResponse;
-import com.devpro.android54_day8.objects.Product;
+import com.devpro.android54_day8.objects.dummy.AllProductResponse;
+import com.devpro.android54_day8.objects.dummy.Product;
+import com.devpro.android54_day8.objects.resful.Data;
+import com.devpro.android54_day8.objects.resful.ProductRequest;
+import com.devpro.android54_day8.objects.resful.ProductResponse;
 import com.devpro.android54_day8.presenters.HomePresenter;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements IHomeView, ProductAdapter.IOnProductItemClickListener {
 
@@ -42,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements IHomeView, Produc
         initData();
 
         getAllProduct();
+
     }
 
     private void initData() {
@@ -52,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements IHomeView, Produc
         rvProduct.setAdapter(mProductAdapter);
     }
 
-    public void getAllProduct(){
+    public void getAllProduct() {
         mHomePresenter.getAllProduct();
     }
 
@@ -70,12 +66,32 @@ public class MainActivity extends AppCompatActivity implements IHomeView, Produc
 
     @Override
     public void getAllProductError(String error) {
-        Log.d(TAG, "getAllProductError: "+error);
+        Log.d(TAG, "getAllProductError: " + error);
+    }
+
+    @Override
+    public void updateProductSuccess(ProductResponse response) {
+        Log.d(TAG, "updateProductSuccess: "+response.toString());
+    }
+
+    @Override
+    public void updateProductError(String error) {
+        Log.d(TAG, "updateProductError: "+error);
     }
 
     @Override
     public void onShopNowClick(Product product) {
-        Toast.makeText(this, ""+product.getTitle(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "" + product.getTitle(), Toast.LENGTH_SHORT).show();
+
+        ProductRequest requestProduct = new ProductRequest();
+        requestProduct.setName(product.getTitle());
+        Data data = new Data();
+        data.setYear(Calendar.getInstance().get(Calendar.YEAR));
+        data.setCPUModel("Intel");
+        data.setPrice(1900.0);
+        data.setHardDiskSize("1 TB");
+        requestProduct.setData(data);
+        mHomePresenter.updateProduct(requestProduct);
     }
 
     @Override
